@@ -8,10 +8,10 @@
 from scrapy.item import Item, Field
 
 
-class Day(Item):
+class Weather(Item):
     # define the fields for your item here like:
     # name = Field()
-    name = Field()
+    day = Field()
     high_temp = Field() 
     low_temp = Field()
     high_humidity = Field()
