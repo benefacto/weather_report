@@ -1,5 +1,5 @@
-import pprint
 from scrapy.spiders import Spider
+from scrapy.selector import Selector
 from weather_report.items import Weather
 
 class Weather_Spider(Spider):
@@ -13,15 +13,14 @@ class Weather_Spider(Spider):
     def parse(self, response):
         item = Weather()
         item['day'] = 'today' if 'today' in response.url else 'yesterday'
-        item['high_temp'] = self.extract('tr[2]/td[2]/text()', response.selector)
-        item['low_temp'] = self.extract('tr[3]/td[2]/text()', response.selector)
-        item['high_humidity'] = self.extract('tr[3]/td[2]/text()', response.selector)
-        item['low_humidity'] = self.extract('tr[3]/td[2]/text()', response.selector)
+        item['high_temp'] = self.extract(response, 'tr[2]/td[2]/text()', u'\xa0')
+        item['low_temp'] = self.extract(response, 'tr[3]/td[2]/text()', u'\xa0')
+        item['high_humidity'] = self.extract(response, 'tr[9]/td[2]/text()', u'\xa0%')
+        item['low_humidity'] = self.extract(response, 'tr[10]/td[2]/text()', u'\xa0%')
         return item
         
-    def extract(self, xpath, selector) :
+    def extract(self, response, xpath, trail) :
         base_xpath = '//table/tbody/'
-        degrees = u'\xa0'
-        ustring = selector.xpath(base_xpath + xpath).extract_first(
-                default='not-found').split(degrees)[0]
+        ustring = response.selector.xpath(base_xpath + xpath).extract_first(
+                default='not-found').split(trail)[0]
         return ustring
