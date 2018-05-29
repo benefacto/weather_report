@@ -5,7 +5,8 @@ Dependencies:
 - Scrapy 1.5.0
 
 To run, perform the following:
-1. Navigate to the weather_report base directory
-2. Type the following command in the terminal: 
+1. Download ZIP file from github and extract
+2. Navigate to the base weather_report directory
+3. Type the following command in the terminal (dependent on Scrapy): 
 scrapy crawl weather_spider
-3. Output will be appended to the output.csv file each time spider is run
+4. Output will be appended to the output.csv file each time spider is run
